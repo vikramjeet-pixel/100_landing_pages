@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Spotlight</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .theme-light {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f3f4f6;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --accent: #3b82f6;
+        }
+
+        .theme-dark {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --accent: #60a5fa;
+        }
+
+        .product-card {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image {
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.2);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="theme-light transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-opacity-90 backdrop-blur-sm" style="background-color: var(--bg-primary);">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span class="text-2xl font-bold" style="color: var(--text-primary)">TechSpot</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <i class="fas fa-moon text-xl" style="color: var(--text-primary)"></i>
+                    </button>
+                    <div class="relative">
+                        <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                            <i class="fas fa-shopping-cart text-xl" style="color: var(--text-primary)"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20" style="background-color: var(--bg-secondary);">
+        <!-- Featured Products Carousel -->
+        <section class="max-w-7xl mx-auto px-4 py-12">
+            <h2 class="text-3xl font-bold mb-8 text-center slide-in" style="color: var(--text-primary)">
+                Featured Products
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product Card 1 -->
+                <div class="product-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="product-image-container h-64">
+                        <img src="https://via.placeholder.com/400x300" alt="Product 1" class="product-image w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Wireless Earbuds Pro</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Premium sound quality with active noise cancellation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold" style="color: var(--accent)">$199.99</span>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="product-image-container h-64">
+                        <img src="https://via.placeholder.com/400x300" alt="Product 2" class="product-image w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Smart Watch Elite</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Advanced fitness tracking with AMOLED display</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold" style="color: var(--accent)">$299.99</span>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="product-image-container h-64">
+                        <img src="https://via.placeholder.com/400x300" alt="Product 3" class="product-image w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Ultra HD Camera</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Professional-grade 4K video recording</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold" style="color: var(--accent)">$799.99</span>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const moonIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('theme-light')) {
+                body.classList.remove('theme-light');
+                body.classList.add('theme-dark');
+                moonIcon.classList.remove('fa-moon');
+                moonIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('theme-dark');
+                body.classList.add('theme-light');
+                moonIcon.classList.remove('fa-sun');
+                moonIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Cart Functionality
+        const addToCartButtons = document.querySelectorAll('button');
+        const cartCount = document.querySelector('.fa-shopping-cart + span');
+        let count = 0;
+
+        addToCartButtons.forEach(button => {
+            if (button.textContent.trim() === 'Add to Cart') {
+                button.addEventListener('click', () => {
+                    count++;
+                    cartCount.textContent = count;
+                    
+                    // Animation for button
+                    button.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        button.style.transform = 'scale(1)';
+                    }, 100);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
