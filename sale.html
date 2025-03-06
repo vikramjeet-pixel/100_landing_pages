@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonal Sale</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .theme-light {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f3f4f6;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --accent: #ef4444;
+            --accent-hover: #dc2626;
+        }
+
+        .theme-dark {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --accent: #f87171;
+            --accent-hover: #ef4444;
+        }
+
+        .sale-card {
+            transition: transform 0.3s ease;
+        }
+
+        .sale-card:hover {
+            transform: translateY(-5px);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            opacity: 0;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .countdown-item {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="theme-light transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-opacity-90 backdrop-blur-sm" style="background-color: var(--bg-primary);">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span class="text-2xl font-bold" style="color: var(--text-primary)">SeasonalDeals</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <i class="fas fa-moon text-xl" style="color: var(--text-primary)"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="min-h-screen pt-20" style="background-color: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <!-- Sale Banner -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 pulse" style="color: var(--accent)">
+                    SUMMER FLASH SALE
+                </h1>
+                <p class="text-xl md:text-2xl" style="color: var(--text-secondary)">
+                    Don't Miss Out on These Amazing Deals!
+                </p>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="flex justify-center space-x-4 md:space-x-8 mb-12">
+                <div class="countdown-item text-center">
+                    <div class="text-3xl md:text-5xl font-bold mb-1" style="color: var(--text-primary)" id="days">00</div>
+                    <div class="text-sm uppercase" style="color: var(--text-secondary)">Days</div>
+                </div>
+                <div class="countdown-item text-center">
+                    <div class="text-3xl md:text-5xl font-bold mb-1" style="color: var(--text-primary)" id="hours">00</div>
+                    <div class="text-sm uppercase" style="color: var(--text-secondary)">Hours</div>
+                </div>
+                <div class="countdown-item text-center">
+                    <div class="text-3xl md:text-5xl font-bold mb-1" style="color: var(--text-primary)" id="minutes">00</div>
+                    <div class="text-sm uppercase" style="color: var(--text-secondary)">Minutes</div>
+                </div>
+                <div class="countdown-item text-center">
+                    <div class="text-3xl md:text-5xl font-bold mb-1" style="color: var(--text-primary)" id="seconds">00</div>
+                    <div class="text-sm uppercase" style="color: var(--text-secondary)">Seconds</div>
+                </div>
+            </div>
+
+<!-- ... existing code until Sale Items Grid ... -->
+
+            <!-- Sale Items Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Sale Item 1 -->
+                <div class="sale-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="relative">
+                        <img src="https://source.unsplash.com/400x300/?fashion,summer" alt="Summer Fashion" class="w-full h-48 object-cover">
+                        <div class="absolute top-0 right-0 bg-red-500 text-white px-4 py-2">50% OFF</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Summer Collection</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Limited time offer on our latest collection</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--accent)">$49.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--text-secondary)">$99.99</span>
+                            </div>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sale Item 2 -->
+                <div class="sale-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="relative">
+                        <img src="https://source.unsplash.com/400x300/?electronics,gadgets" alt="Tech Gadgets" class="w-full h-48 object-cover">
+                        <div class="absolute top-0 right-0 bg-red-500 text-white px-4 py-2">40% OFF</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Smart Gadgets</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Latest tech at unbeatable prices</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--accent)">$299.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--text-secondary)">$499.99</span>
+                            </div>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sale Item 3 -->
+                <div class="sale-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="relative">
+                        <img src="https://source.unsplash.com/400x300/?shoes,sneakers" alt="Footwear" class="w-full h-48 object-cover">
+                        <div class="absolute top-0 right-0 bg-red-500 text-white px-4 py-2">60% OFF</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Premium Footwear</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Step into summer with style</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--accent)">$79.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--text-secondary)">$199.99</span>
+                            </div>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sale Item 4 -->
+                <div class="sale-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="relative">
+                        <img src="https://source.unsplash.com/400x300/?watch,accessories" alt="Accessories" class="w-full h-48 object-cover">
+                        <div class="absolute top-0 right-0 bg-red-500 text-white px-4 py-2">45% OFF</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Luxury Watches</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Timeless elegance at amazing prices</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--accent)">$399.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--text-secondary)">$729.99</span>
+                            </div>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sale Item 5 -->
+                <div class="sale-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="relative">
+                        <img src="https://source.unsplash.com/400x300/?bag,handbag" alt="Bags" class="w-full h-48 object-cover">
+                        <div class="absolute top-0 right-0 bg-red-500 text-white px-4 py-2">55% OFF</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Designer Bags</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Luxury bags at incredible discounts</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--accent)">$159.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--text-secondary)">$359.99</span>
+                            </div>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sale Item 6 -->
+                <div class="sale-card rounded-lg overflow-hidden shadow-lg" style="background-color: var(--bg-primary);">
+                    <div class="relative">
+                        <img src="https://source.unsplash.com/400x300/?sunglasses,summer" alt="Sunglasses" class="w-full h-48 object-cover">
+                        <div class="absolute top-0 right-0 bg-red-500 text-white px-4 py-2">35% OFF</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Summer Eyewear</h3>
+                        <p class="mb-4" style="color: var(--text-secondary)">Trendy sunglasses for the season</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-2xl font-bold" style="color: var(--accent)">$89.99</span>
+                                <span class="text-sm line-through ml-2" style="color: var(--text-secondary)">$139.99</span>
+                            </div>
+                            <button class="px-4 py-2 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent)">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!-- ... rest of the existing code ... -->
+
+                <!-- Add more sale items as needed -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const moonIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('theme-light')) {
+                body.classList.remove('theme-light');
+                body.classList.add('theme-dark');
+                moonIcon.classList.remove('fa-moon');
+                moonIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('theme-dark');
+                body.classList.add('theme-light');
+                moonIcon.classList.remove('fa-sun');
+                moonIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Countdown Timer
+        function updateCountdown() {
+            const endDate = new Date('2024-06-30T23:59:59').getTime();
+            const now = new Date().getTime();
+            const timeLeft = endDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Confetti Animation
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}deg, 100%, 50%)`;
+            confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear`;
+            document.body.appendChild(confetti);
+
+            confetti.addEventListener('animationend', () => {
+                confetti.remove();
+            });
+        }
+
+        // Create confetti periodically
+        setInterval(() => {
+            if (Math.random() > 0.7) { // 30% chance to create confetti
+                createConfetti();
+            }
+        }, 300);
+    </script>
+</body>
+</html>
