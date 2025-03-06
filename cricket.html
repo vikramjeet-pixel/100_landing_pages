@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Live Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        .score-update {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .live-indicator {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-green-700 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-white">CricketLive</div>
+                <div class="space-x-6">
+                    <a href="#" class="text-white hover:text-gray-200">Live Matches</a>
+                    <a href="#" class="text-white hover:text-gray-200">Schedule</a>
+                    <a href="#" class="text-white hover:text-gray-200">Rankings</a>
+                    <a href="#" class="text-white hover:text-gray-200">News</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Live Match Card -->
+        <div class="bg-white rounded-lg shadow-lg mb-8 overflow-hidden animate__animated animate__fadeIn">
+            <div class="bg-green-600 p-4 text-white flex justify-between items-center">
+                <h2 class="text-xl font-bold">India vs Australia</h2>
+                <span class="live-indicator bg-red-500 px-3 py-1 rounded-full text-sm">LIVE</span>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Team 1 -->
+                    <div class="score-update">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <img src="https://placeholder.com/flags/india.png" alt="India" class="w-12 h-12 rounded-full">
+                            <div>
+                                <h3 class="text-xl font-bold">India</h3>
+                                <p class="text-3xl font-bold text-green-600">285/4</p>
+                                <p class="text-sm text-gray-600">(43.2 Overs)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Team 2 -->
+                    <div>
+                        <div class="flex items-center space-x-4 mb-4">
+                            <img src="https://placeholder.com/flags/australia.png" alt="Australia" class="w-12 h-12 rounded-full">
+                            <div>
+                                <h3 class="text-xl font-bold">Australia</h3>
+                                <p class="text-3xl font-bold text-gray-600">Yet to bat</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Partnership -->
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg slide-in">
+                    <h4 class="text-lg font-semibold mb-2">Current Partnership</h4>
+                    <div class="flex justify-between">
+                        <div>
+                            <span class="font-bold">Kohli</span>
+                            <span class="text-gray-600">85(76)</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">Rahul</span>
+                            <span class="text-gray-600">42(38)</span>
+                        </div>
+                        <div class="text-green-600 font-bold">
+                            98 runs (64 balls)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Overs -->
+                <div class="mt-6">
+                    <h4 class="text-lg font-semibold mb-2">Recent Overs</h4>
+                    <div class="flex space-x-2 overflow-x-auto">
+                        <div class="flex-shrink-0 p-2 bg-gray-100 rounded">
+                            <span class="text-blue-600">1</span>
+                            <span class="text-green-600">4</span>
+                            <span class="text-red-600">W</span>
+                            <span>2</span>
+                            <span class="text-green-600">6</span>
+                            <span>1</span>
+                        </div>
+                        <!-- Add more overs here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Batting Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInLeft">
+                <h3 class="text-lg font-semibold mb-4">Batting</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-2">Batter</th>
+                                <th class="text-right py-2">R</th>
+                                <th class="text-right py-2">B</th>
+                                <th class="text-right py-2">4s</th>
+                                <th class="text-right py-2">6s</th>
+                                <th class="text-right py-2">SR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="py-2">Virat Kohli*</td>
+                                <td class="text-right">85</td>
+                                <td class="text-right">76</td>
+                                <td class="text-right">8</td>
+                                <td class="text-right">2</td>
+                                <td class="text-right">111.84</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2">KL Rahul*</td>
+                                <td class="text-right">42</td>
+                                <td class="text-right">38</td>
+                                <td class="text-right">4</td>
+                                <td class="text-right">1</td>
+                                <td class="text-right">110.53</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Bowling Stats -->
+            <div class="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInRight">
+                <h3 class="text-lg font-semibold mb-4">Bowling</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-2">Bowler</th>
+                                <th class="text-right py-2">O</th>
+                                <th class="text-right py-2">M</th>
+                                <th class="text-right py-2">R</th>
+                                <th class="text-right py-2">W</th>
+                                <th class="text-right py-2">Econ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="py-2">Mitchell Starc</td>
+                                <td class="text-right">9</td>
+                                <td class="text-right">0</td>
+                                <td class="text-right">58</td>
+                                <td class="text-right">2</td>
+                                <td class="text-right">6.44</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2">Pat Cummins</td>
+                                <td class="text-right">8</td>
+                                <td class="text-right">1</td>
+                                <td class="text-right">45</td>
+                                <td class="text-right">1</td>
+                                <td class="text-right">5.63</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Match Info -->
+        <div class="bg-white rounded-lg shadow-lg p-6 animate__animated animate__fadeInUp">
+            <h3 class="text-lg font-semibold mb-4">Match Info</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <p class="text-gray-600">Venue</p>
+                    <p class="font-semibold">Melbourne Cricket Ground</p>
+                </div>
+                <div>
+                    <p class="text-gray-600">Toss</p>
+                    <p class="font-semibold">India won the toss & chose to bat</p>
+                </div>
+                <div>
+                    <p class="text-gray-600">Series</p>
+                    <p class="font-semibold">ODI World Cup 2024</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Add real-time updates simulation
+        setInterval(() => {
+            const scores = document.querySelectorAll('.score-update');
+            scores.forEach(score => {
+                score.classList.add('pulse');
+                setTimeout(() => score.classList.remove('pulse'), 1000);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
