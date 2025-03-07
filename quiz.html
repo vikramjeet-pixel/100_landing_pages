@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Perfect Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --light-bg: #f0f4f8;
+            --light-text: #2d3748;
+            --light-primary: #9f7aea;
+            --light-secondary: #b794f4;
+            --light-accent: #e9d8fd;
+            
+            --dark-bg: #1a202c;
+            --dark-text: #f7fafc;
+            --dark-primary: #b794f4;
+            --dark-secondary: #9f7aea;
+            --dark-accent: #44337a;
+        }
+
+        .light-theme {
+            --bg-color: var(--light-bg);
+            --text-color: var(--light-text);
+            --primary-color: var(--light-primary);
+            --secondary-color: var(--light-secondary);
+            --accent-color: var(--light-accent);
+        }
+
+        .dark-theme {
+            --bg-color: var(--dark-bg);
+            --text-color: var(--dark-text);
+            --primary-color: var(--dark-primary);
+            --secondary-color: var(--dark-secondary);
+            --accent-color: var(--dark-accent);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary-color);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .option-button {
+            transition: all 0.3s ease;
+            background-color: var(--accent-color);
+        }
+
+        .option-button:hover {
+            transform: translateY(-2px);
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="light-theme min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 backdrop-blur-md bg-opacity-70" style="background-color: var(--bg-color)">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Product Finder Quiz</h1>
+                <button id="themeToggle" class="px-4 py-2 rounded-full" 
+                        style="background-color: var(--primary-color); color: white;">
+                    Toggle Theme
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-4 max-w-4xl mx-auto">
+        <div id="quiz-container">
+            <!-- Quiz content will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center mt-12" style="background-color: var(--bg-color)">
+        <p>© 2024 Created by Vikramjeet Singh. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const quizData = {
+            questions: [
+                {
+                    id: 1,
+                    question: "What's your primary skincare concern?",
+                    options: ["Acne", "Aging", "Dryness", "Sensitivity"]
+                },
+                {
+                    id: 2,
+                    question: "What's your skin type?",
+                    options: ["Oily", "Dry", "Combination", "Normal"]
+                },
+                {
+                    id: 3,
+                    question: "What's your preferred price range?",
+                    options: ["Budget", "Mid-range", "Premium", "Luxury"]
+                },
+                {
+                    id: 4,
+                    question: "How much time do you spend on skincare daily?",
+                    options: ["Minimal", "Moderate", "Extensive", "Very Extensive"]
+                }
+            ],
+            products: {
+                "Acne-Oily-Budget-Minimal": {
+                    name: "Clear Skin Essentials Kit",
+                    description: "Perfect for those dealing with acne-prone skin who need a simple, effective routine.",
+                    price: "$29.99",
+                    image: "https://source.unsplash.com/400x300/?skincare"
+                },
+                // Add more product combinations as needed
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function showQuestion() {
+            const question = quizData.questions[currentQuestion];
+            const quizContainer = document.getElementById('quiz-container');
+            
+            quizContainer.innerHTML = `
+                <div class="quiz-card rounded-lg p-8 mb-8">
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-4">
+                            <span class="text-sm">Question ${currentQuestion + 1}/${quizData.questions.length}</span>
+                            <span class="text-sm">${Math.round((currentQuestion + 1) / quizData.questions.length * 100)}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="h-2 rounded-full" style="width: ${(currentQuestion + 1) / quizData.questions.length * 100}%; background-color: var(--primary-color)"></div>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">${question.question}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${question.options.map((option, index) => `
+                            <button class="option-button p-4 rounded-lg text-left" data-index="${index}">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            const options = document.querySelectorAll('.option-button');
+            options.forEach(option => {
+                option.addEventListener('click', handleAnswer);
+            });
+        }
+
+        function handleAnswer(e) {
+            const selectedOption = e.target;
+            const options = document.querySelectorAll('.option-button');
+            
+            options.forEach(option => option.classList.remove('selected'));
+            selectedOption.classList.add('selected');
+
+            answers[currentQuestion] = quizData.questions[currentQuestion].options[selectedOption.dataset.index];
+
+            setTimeout(() => {
+                if (currentQuestion < quizData.questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion();
+                } else {
+                    showResults();
+                }
+            }, 500);
+        }
+
+        function showResults() {
+            const quizContainer = document.getElementById('quiz-container');
+            const recommendedProduct = getRecommendedProduct(answers);
+
+            quizContainer.innerHTML = `
+                <div class="result-card rounded-lg p-8" style="background-color: var(--accent-color)">
+                    <h2 class="text-2xl font-bold mb-6">Your Perfect Match! 🎉</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <img src="${recommendedProduct.image}" alt="${recommendedProduct.name}" 
+                             class="w-full rounded-lg shadow-lg">
+                        <div>
+                            <h3 class="text-xl font-bold mb-4">${recommendedProduct.name}</h3>
+                            <p class="mb-4">${recommendedProduct.description}</p>
+                            <p class="text-2xl font-bold mb-6">${recommendedProduct.price}</p>
+                            <button class="w-full py-3 rounded-lg text-white" 
+                                    style="background-color: var(--primary-color)">
+                                Shop Now
+                            </button>
+                        </div>
+                    </div>
+                    <button onclick="resetQuiz()" class="mt-8 px-6 py-2 rounded-full" 
+                            style="background-color: var(--primary-color); color: white">
+                        Take Quiz Again
+                    </button>
+                </div>
+            `;
+        }
+
+        function getRecommendedProduct(answers) {
+            // Simplified recommendation logic
+            return {
+                name: "Personalized Skincare Set",
+                description: "Based on your answers, we've curated the perfect skincare routine for your needs.",
+                price: "$49.99",
+                image: "https://source.unsplash.com/400x300/?skincare"
+            };
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            answers = [];
+            showQuestion();
+        }
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            document.body.classList.toggle('dark-theme');
+        });
+
+        // Initialize Quiz
+        window.addEventListener('load', showQuestion);
+    </script>
+</body>
+</html> 

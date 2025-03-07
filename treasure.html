@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Hunt Sale</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+        }
+
+        .treasure-spot {
+            width: 80px;
+            height: 80px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+            }
+            70% {
+                transform: scale(1.1);
+                opacity: 0.7;
+                box-shadow: 0 0 0 20px rgba(255, 107, 107, 0);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+            }
+        }
+
+        .hunt-area {
+            background-color: #f8f9fa;
+            border: 3px dashed #ccc;
+            min-height: 600px;
+            position: relative;
+            margin: 20px;
+            border-radius: 15px;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .dark {
+            background-color: #1a202c;
+            color: white;
+        }
+
+        .dark .hunt-area {
+            background-color: #2d3748;
+            border-color: #4a5568;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 transition-colors duration-300">
+    <!-- Header -->
+    <header class="bg-white shadow-md p-4 mb-8">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-gray-800">Treasure Hunt Sale! 🎯</h1>
+            <button id="themeToggle" class="px-4 py-2 bg-gray-800 text-white rounded-lg">
+                Toggle Theme
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto p-4">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold mb-2">Find Hidden Discounts!</h2>
+            <p class="text-lg">Found: <span id="foundCount">0</span>/5 treasures</p>
+        </div>
+
+        <div class="hunt-area" id="huntArea">
+            <!-- Treasure spots will be added here by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center p-4 mt-8">
+        <p>© 2024 Created by Vikramjeet Singh. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const huntArea = document.getElementById('huntArea');
+        const foundCount = document.getElementById('foundCount');
+        const themeToggle = document.getElementById('themeToggle');
+        let found = 0;
+
+        // Discount codes
+        const discounts = [
+            'SAVE50', 'EXTRA40', 'BONUS30', 'SPECIAL25', 'MEGA60'
+        ];
+
+        // Create treasure spots
+        function createTreasureSpots() {
+            huntArea.innerHTML = ''; // Clear existing spots
+            found = 0;
+            foundCount.textContent = '0';
+
+            for (let i = 0; i < 5; i++) {
+                const spot = document.createElement('div');
+                spot.className = 'treasure-spot';
+                
+                // Position randomly but keep within bounds
+                const x = Math.random() * (huntArea.offsetWidth - 100);
+                const y = Math.random() * (huntArea.offsetHeight - 100);
+                
+                spot.style.left = `${x}px`;
+                spot.style.top = `${y}px`;
+                spot.dataset.discount = discounts[i];
+                
+                spot.addEventListener('click', revealDiscount);
+                huntArea.appendChild(spot);
+            }
+        }
+
+        // Handle discount reveal
+        function revealDiscount(e) {
+            const spot = e.target;
+            const discount = spot.dataset.discount;
+            
+            // Create popup
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = `
+                <h3 class="text-xl font-bold mb-4">🎉 Congratulations!</h3>
+                <p class="mb-4">You found a discount code:</p>
+                <div class="bg-gray-100 p-3 rounded-lg mb-4 text-lg font-mono">
+                    ${discount}
+                </div>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg" onclick="copyCode('${discount}')">
+                    Copy Code
+                </button>
+            `;
+            
+            document.body.appendChild(popup);
+            
+            // Remove spot and update counter
+            spot.remove();
+            found++;
+            foundCount.textContent = found;
+            
+            // Remove popup after 3 seconds
+            setTimeout(() => popup.remove(), 3000);
+        }
+
+        // Copy code to clipboard
+        function copyCode(code) {
+            navigator.clipboard.writeText(code)
+                .then(() => alert('Code copied to clipboard!'))
+                .catch(err => console.error('Failed to copy code:', err));
+        }
+
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+        });
+
+        // Initialize treasure spots
+        window.addEventListener('load', createTreasureSpots);
+        window.addEventListener('resize', createTreasureSpots);
+    </script>
+</body>
+</html>

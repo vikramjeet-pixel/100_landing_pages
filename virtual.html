@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On Experience</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <style>
+        .theme-light {
+            --bg-primary: #fdf2f8;
+            --bg-secondary: #fbf7ff;
+            --text-primary: #4a044e;
+            --text-secondary: #86198f;
+            --accent-1: #f0abfc;
+            --accent-2: #e879f9;
+            --accent-3: #c026d3;
+            --shadow: rgba(192, 38, 211, 0.1);
+        }
+
+        .theme-dark {
+            --bg-primary: #4a044e;
+            --bg-secondary: #701a75;
+            --text-primary: #fdf2f8;
+            --text-secondary: #fbcfe8;
+            --accent-1: #86198f;
+            --accent-2: #a21caf;
+            --accent-3: #c026d3;
+            --shadow: rgba(192, 38, 211, 0.2);
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(120deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .try-on-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .filter-preview {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-item {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .filter-item:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body class="theme-light transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-opacity-90 backdrop-blur-sm" style="background-color: var(--bg-primary);">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span class="text-2xl font-bold gradient-text">VirtualGlam</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button id="themeToggle" class="p-2 rounded-full hover:opacity-80">
+                        <i class="fas fa-moon text-xl" style="color: var(--text-primary)"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen pt-20 px-4" style="background-color: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto py-12">
+            <!-- Hero Section -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 gradient-text floating">
+                    Virtual Try-On Experience
+                </h1>
+                <p class="text-xl" style="color: var(--text-secondary)">
+                    Try on makeup and accessories instantly with AR technology
+                </p>
+            </div>
+
+            <!-- Try-On Section -->
+            <div class="try-on-container mb-12">
+                <video id="videoElement" class="w-full hidden"></video>
+                <canvas id="outputCanvas" class="w-full"></canvas>
+
+                <div class="filter-preview">
+                    <img src="https://source.unsplash.com/50x50/?lipstick,makeup" alt="Lipstick" class="filter-item" data-filter="lipstick">
+                    <img src="https://source.unsplash.com/50x50/?eyeshadow,cosmetics" alt="Eyeshadow" class="filter-item" data-filter="eyeshadow">
+                    <img src="https://source.unsplash.com/50x50/?glasses,sunglasses" alt="Glasses" class="filter-item" data-filter="glasses">
+                    <img src="https://source.unsplash.com/50x50/?jewelry,necklace" alt="Jewelry" class="filter-item" data-filter="jewelry">
+                    <img src="https://source.unsplash.com/50x50/?hairstyle,wig" alt="Hairstyle" class="filter-item" data-filter="hairstyle">
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex justify-center gap-4 mb-12">
+                <button id="startCamera" class="px-6 py-3 rounded-full text-white transition-transform hover:scale-105"
+                    style="background-color: var(--accent-2)">
+                    Start Camera
+                </button>
+                <button id="takePhoto" class="px-6 py-3 rounded-full text-white transition-transform hover:scale-105"
+                    style="background-color: var(--accent-3)">
+                    Take Photo
+                </button>
+            </div>
+
+            <!-- Features Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-primary)">
+                    <i class="fas fa-magic text-3xl mb-4" style="color: var(--accent-1)"></i>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Real-Time AR</h3>
+                    <p style="color: var(--text-secondary)">Instant virtual try-on with advanced AR technology</p>
+                </div>
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-primary)">
+                    <i class="fas fa-palette text-3xl mb-4" style="color: var(--accent-2)"></i>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Multiple Filters</h3>
+                    <p style="color: var(--text-secondary)">Try different makeup looks and accessories</p>
+                </div>
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-primary)">
+                    <i class="fas fa-share-alt text-3xl mb-4" style="color: var(--accent-3)"></i>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary)">Share & Save</h3>
+                    <p style="color: var(--text-secondary)">Save your favorite looks and share with friends</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center" style="background-color: var(--bg-primary)">
+        <p style="color: var(--text-secondary)">
+            © 2024 VirtualGlam. Designed and Developed by Vikramjeet Singh. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const moonIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('theme-light')) {
+                body.classList.remove('theme-light');
+                body.classList.add('theme-dark');
+                moonIcon.classList.remove('fa-moon');
+                moonIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('theme-dark');
+                body.classList.add('theme-light');
+                moonIcon.classList.remove('fa-sun');
+                moonIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Virtual Try-On Implementation
+        const video = document.getElementById('videoElement');
+        const canvas = document.getElementById('outputCanvas');
+        const ctx = canvas.getContext('2d');
+        const startButton = document.getElementById('startCamera');
+        const photoButton = document.getElementById('takePhoto');
+
+        // Initialize face mesh
+        let faceMesh;
+        let currentFilter = null;
+
+        async function setupCamera() {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: { width: 600, height: 400 },
+                audio: false
+            });
+            video.srcObject = stream;
+            await video.play();
+
+            // Set canvas size to match video
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Start detection loop
+            detectFace();
+        }
+
+        async function detectFace() {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Apply selected filter if any
+            if (currentFilter) {
+                applyFilter(currentFilter);
+            }
+
+            requestAnimationFrame(detectFace);
+        }
+
+        function applyFilter(filterType) {
+            // Simplified filter application
+            switch (filterType) {
+                case 'lipstick':
+                    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+                    // Add lipstick effect
+                    break;
+                case 'eyeshadow':
+                    ctx.fillStyle = 'rgba(150, 0, 150, 0.3)';
+                    // Add eyeshadow effect
+                    break;
+                case 'glasses':
+                    // Add glasses overlay
+                    break;
+            }
+        }
+
+        startButton.addEventListener('click', async () => {
+            video.classList.remove('hidden');
+            await setupCamera();
+        });
+
+        photoButton.addEventListener('click', () => {
+            const photo = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'virtual-try-on.png';
+            link.href = photo;
+            link.click();
+        });
+
+        // Filter selection
+        document.querySelectorAll('.filter-item').forEach(item => {
+            item.addEventListener('click', () => {
+                currentFilter = item.dataset.filter;
+            });
+        });
+    </script>
+</body>
+
+</html>

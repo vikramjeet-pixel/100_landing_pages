@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Explorer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --pastel-pink: #fce7f3;
+            --pastel-blue: #dbeafe;
+            --pastel-purple: #e9d5ff;
+            --pastel-mint: #d1fae5;
+            --pastel-cream: #fefce8;
+            --dark-bg: #2d3748;
+            --dark-text: #f3f4f6;
+        }
+
+        .light-theme {
+            --bg-color: var(--pastel-cream);
+            --text-color: #4b5563;
+            --card-bg: var(--pastel-blue);
+            --accent-color: var(--pastel-purple);
+        }
+
+        .dark-theme {
+            --bg-color: var(--dark-bg);
+            --text-color: var(--dark-text);
+            --card-bg: #4b5563;
+            --accent-color: var(--pastel-mint);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.4s ease;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-purple));
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--accent-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 1rem;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card.expanded {
+            height: 400px;
+        }
+
+        .card-content {
+            opacity: 0;
+            height: 0;
+            transition: all 0.4s ease;
+        }
+
+        .feature-card.expanded .card-content {
+            opacity: 1;
+            height: auto;
+            padding: 1rem;
+        }
+
+        .hero-text {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .theme-btn {
+            background-color: var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="light-theme min-h-screen">
+    <!-- Navbar -->
+    <nav class="navbar fixed w-full z-50 py-4 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-8">
+                <h1 class="text-2xl font-bold text-gray-800">Feature Explorer</h1>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="nav-link text-gray-700">Home</a>
+                    <a href="#features" class="nav-link text-gray-700">Features</a>
+                    <a href="#contact" class="nav-link text-gray-700">Contact</a>
+                </div>
+            </div>
+            <button id="themeToggle" class="theme-btn px-4 py-2 rounded-full text-gray-800">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="pt-24 px-6 max-w-7xl mx-auto">
+        <section class="text-center mb-16">
+            <h2 class="hero-text text-4xl md:text-5xl font-bold mb-4">Discover Amazing Features</h2>
+            <p class="text-lg opacity-80 max-w-2xl mx-auto">
+                Click the cards below to explore the benefits of our platform
+            </p>
+        </section>
+
+        <!-- Feature Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="feature-card p-6">
+                <h3 class="text-xl font-bold mb-2">Interactive Design</h3>
+                <p class="text-sm opacity-80">Beautiful animations</p>
+                <div class="card-content">
+                    <p class="mt-4">Experience smooth transitions and engaging interactions that make navigation a delight. Our design system ensures consistency and beauty across all elements.</p>
+                    <ul class="mt-2 list-disc list-inside">
+                        <li>Fluid animations</li>
+                        <li>Responsive layout</li>
+                        <li>User-friendly interface</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-card p-6">
+                <h3 class="text-xl font-bold mb-2">Customization</h3>
+                <p class="text-sm opacity-80">Personalize your experience</p>
+                <div class="card-content">
+                    <p class="mt-4">Tailor the platform to your needs with our extensive customization options. Make it truly yours with just a few clicks.</p>
+                    <ul class="mt-2 list-disc list-inside">
+                        <li>Theme switching</li>
+                        <li>Layout options</li>
+                        <li>Color schemes</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-card p-6">
+                <h3 class="text-xl font-bold mb-2">Performance</h3>
+                <p class="text-sm opacity-80">Lightning fast</p>
+                <div class="card-content">
+                    <p class="mt-4">Enjoy blazing-fast load times and smooth performance optimized for all devices. Never wait again.</p>
+                    <ul class="mt-2 list-disc list-inside">
+                        <li>Optimized assets</li>
+                        <li>Efficient code</li>
+                        <li>Fast rendering</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-card p-6">
+                <h3 class="text-xl font-bold mb-2">Security</h3>
+                <p class="text-sm opacity-80">Top-tier protection</p>
+                <div class="card-content">
+                    <p class="mt-4">Your data is safe with our advanced security measures and encryption protocols.</p>
+                    <ul class="mt-2 list-disc list-inside">
+                        <li>SSL encryption</li>
+                        <li>Regular audits</li>
+                        <li>Secure authentication</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-card p-6">
+                <h3 class="text-xl font-bold mb-2">Support</h3>
+                <p class="text-sm opacity-80">24/7 assistance</p>
+                <div class="card-content">
+                    <p class="mt-4">Get help whenever you need it with our dedicated support team available round the clock.</p>
+                    <ul class="mt-2 list-disc list-inside">
+                        <li>Live chat</li>
+                        <li>Email support</li>
+                        <li>Knowledge base</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-card p-6">
+                <h3 class="text-xl font-bold mb-2">Integration</h3>
+                <p class="text-sm opacity-80">Seamless connectivity</p>
+                <div class="card-content">
+                    <p class="mt-4">Connect with your favorite tools and services through our robust integration system.</p>
+                    <ul class="mt-2 list-disc list-inside">
+                        <li>API access</li>
+                        <li>Third-party plugins</li>
+                        <li>Workflow automation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center" style="background-color: var(--card-bg)">
+        <p class="text-sm">© 2024 Created by Vikramjeet Singh. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const moonIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            document.body.classList.toggle('dark-theme');
+            moonIcon.classList.toggle('fa-moon');
+            moonIcon.classList.toggle('fa-sun');
+        });
+
+        // Feature Card Expansion
+        const featureCards = document.querySelectorAll('.feature-card');
+        
+        featureCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const isExpanded = card.classList.contains('expanded');
+                
+                // Close all other cards
+                featureCards.forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.classList.remove('expanded');
+                    }
+                });
+
+                // Toggle current card
+                if (!isExpanded) {
+                    card.classList.add('expanded');
+                } else {
+                    card.classList.remove('expanded');
+                }
+            });
+        });
+
+        // Close cards when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.feature-card')) {
+                featureCards.forEach(card => {
+                    card.classList.remove('expanded');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mix & Match Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .theme-light {
+            --bg-primary: #faf7f5;
+            --bg-secondary: #fff5f5;
+            --text-primary: #4a5568;
+            --text-secondary: #718096;
+            --accent-1: #ffd1dc; /* Pastel Pink */
+            --accent-2: #b5e6d4; /* Pastel Green */
+            --accent-3: #a7c7e7; /* Pastel Blue */
+            --accent-4: #f6e5bc; /* Pastel Yellow */
+        }
+
+        .theme-dark {
+            --bg-primary: #2d3748;
+            --bg-secondary: #1a202c;
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --accent-1: #805d66; /* Dark Pastel Pink */
+            --accent-2: #5a7267; /* Dark Pastel Green */
+            --accent-3: #536b7d; /* Dark Pastel Blue */
+            --accent-4: #7d725e; /* Dark Pastel Yellow */
+        }
+
+        .draggable {
+            cursor: move;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .draggable:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.drag-over {
+            border-color: var(--accent-1);
+            background-color: rgba(255, 209, 220, 0.1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .copyright {
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-4));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .copyright:hover {
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body class="theme-light transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-opacity-90 backdrop-blur-sm" style="background-color: var(--bg-primary);">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span class="text-2xl font-bold" style="color: var(--text-primary)">Mix & Match</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button id="themeToggle" class="p-2 rounded-full hover:opacity-80">
+                        <i class="fas fa-moon text-xl" style="color: var(--text-primary)"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen pt-20 pb-16" style="background-color: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 floating" style="color: var(--text-primary)">
+                    Create Your Perfect Bundle
+                </h1>
+                <p class="text-xl" style="color: var(--text-secondary)">
+                    Drag and drop items to build your custom collection
+                </p>
+            </div>
+
+            <!-- Builder Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Items Panel -->
+                <div class="col-span-1 bg-white rounded-lg shadow-lg p-6" style="background-color: var(--bg-primary);">
+                    <h2 class="text-2xl font-bold mb-4" style="color: var(--text-primary)">Available Items</h2>
+                    <div class="space-y-4">
+                        <!-- Draggable Items -->
+                        <div class="draggable p-4 rounded-lg" style="background-color: var(--accent-1);" draggable="true">
+                            <h3 class="font-bold" style="color: var(--text-primary)">Summer Dress</h3>
+                            <p style="color: var(--text-secondary)">$49.99</p>
+                        </div>
+                        <div class="draggable p-4 rounded-lg" style="background-color: var(--accent-2);" draggable="true">
+                            <h3 class="font-bold" style="color: var(--text-primary)">Straw Hat</h3>
+                            <p style="color: var(--text-secondary)">$29.99</p>
+                        </div>
+                        <div class="draggable p-4 rounded-lg" style="background-color: var(--accent-3);" draggable="true">
+                            <h3 class="font-bold" style="color: var(--text-primary)">Sandals</h3>
+                            <p style="color: var(--text-secondary)">$39.99</p>
+                        </div>
+                        <div class="draggable p-4 rounded-lg" style="background-color: var(--accent-4);" draggable="true">
+                            <h3 class="font-bold" style="color: var(--text-primary)">Beach Bag</h3>
+                            <p style="color: var(--text-secondary)">$59.99</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drop Zone -->
+                <div class="col-span-2">
+                    <div class="drop-zone h-full rounded-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--text-primary)">Your Bundle</h2>
+                        <div id="bundle" class="grid grid-cols-2 gap-4 min-h-[400px]">
+                            <!-- Dropped items will appear here -->
+                        </div>
+                        <div class="mt-6 text-center">
+                            <p class="text-xl font-bold mb-2" style="color: var(--text-primary)">Total: $0.00</p>
+                            <button class="px-8 py-3 rounded-full text-white transition-transform hover:scale-105"
+                                    style="background-color: var(--accent-1)">
+                                Create Bundle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6" style="background-color: var(--bg-primary);">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center">
+                <p class="copyright text-lg font-bold">
+                    © 2024 Designed & Developed by Vikramjeet Singh
+                </p>
+                <div class="mt-4 space-x-4">
+                    <a href="#" class="hover:opacity-80" style="color: var(--text-secondary)">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="hover:opacity-80" style="color: var(--text-secondary)">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="hover:opacity-80" style="color: var(--text-secondary)">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const moonIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('theme-light')) {
+                body.classList.remove('theme-light');
+                body.classList.add('theme-dark');
+                moonIcon.classList.remove('fa-moon');
+                moonIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('theme-dark');
+                body.classList.add('theme-light');
+                moonIcon.classList.remove('fa-sun');
+                moonIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Drag and Drop Functionality
+        const draggable = document.querySelectorAll('.draggable');
+        const dropZone = document.querySelector('.drop-zone');
+        const bundle = document.getElementById('bundle');
+        let total = 0;
+
+        draggable.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('opacity-50');
+            });
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('opacity-50');
+            });
+        });
+
+        dropZone.addEventListener('dragover', e => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const draggedItem = document.querySelector('.draggable.opacity-50');
+            const clone = draggedItem.cloneNode(true);
+            clone.classList.remove('opacity-50');
+            bundle.appendChild(clone);
+            
+            // Update total
+            const price = parseFloat(clone.querySelector('p').textContent.replace('$', ''));
+            total += price;
+            document.querySelector('.text-xl.font-bold').textContent = `Total: $${total.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>

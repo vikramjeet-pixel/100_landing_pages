@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin & Win Discounts</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .theme-light {
+            --bg-primary: #fff5f5;
+            --bg-secondary: #faf5ff;
+            --text-primary: #4a5568;
+            --text-secondary: #718096;
+            --accent-1: #f687b3;
+            --accent-2: #b794f4;
+            --accent-3: #76e4f7;
+            --accent-4: #68d391;
+        }
+
+        .theme-dark {
+            --bg-primary: #2d3748;
+            --bg-secondary: #1a202c;
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --accent-1: #d53f8c;
+            --accent-2: #805ad5;
+            --accent-3: #0bc5ea;
+            --accent-4: #38a169;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 120px); /* Account for header and footer */
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 3rem auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            transform: rotate(0deg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border: 10px solid var(--bg-primary);
+            overflow: hidden;
+        }
+
+        .wheel-section {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+        }
+
+        .wheel-text {
+            position: absolute;
+            left: 35%;
+            top: 20%;
+            transform-origin: 0 0;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        .wheel-arrow {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-1);
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        #spinButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            color: white;
+            font-weight: bold;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        #spinButton:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        #spinButton:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: translate(-50%, -50%);
+        }
+
+        .email-container {
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--accent-1);
+            box-shadow: 0 0 15px rgba(246, 135, 179, 0.3);
+        }
+
+        #resultDisplay {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        #discountCode {
+            display: inline-block;
+            background: var(--accent-1);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            margin: 0.5rem 0;
+            font-weight: bold;
+        }
+
+        #copyButton {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            background: linear-gradient(45deg, var(--accent-2), var(--accent-3));
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #copyButton:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        footer {
+            padding: 1.5rem;
+            text-align: center;
+            background-color: var(--bg-primary);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spin-animation {
+            animation: spin 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+    </style>
+</head>
+<body class="theme-light transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-opacity-90 backdrop-blur-sm" style="background-color: var(--bg-primary);">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span class="text-2xl font-bold" style="color: var(--text-primary)">Spin & Win</span>
+                </div>
+                <button id="themeToggle" class="p-2 rounded-full hover:bg-opacity-20" style="background-color: var(--accent-1)">
+                    <i class="fas fa-moon text-xl" style="color: var(--text-primary)"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen pt-20 px-4" style="background-color: var(--bg-secondary);">
+        <div class="main-container">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 bounce" style="color: var(--accent-1)">
+                    Spin the Wheel of Discounts!
+                </h1>
+                <p class="text-xl" style="color: var(--text-secondary)">
+                    Enter your email for a chance to win amazing discounts
+                </p>
+            </div>
+
+            <!-- Email Input -->
+            <div class="email-container">
+                <input type="email" 
+                       id="emailInput"
+                       placeholder="Enter your email address" 
+                       class="email-input">
+            </div>
+
+            <!-- Wheel Container -->
+            <div class="wheel-container">
+                <div class="wheel-arrow"></div>
+                <div class="wheel" id="wheel"></div>
+                <button id="spinButton">SPIN!</button>
+            </div>
+
+            <!-- Result Display -->
+            <div id="resultDisplay" class="hidden">
+                <h2 class="text-2xl font-bold mb-4" style="color: var(--text-primary)">Congratulations!</h2>
+                <p class="text-xl mb-4" style="color: var(--text-secondary)">
+                    Your discount code is: <span id="discountCode"></span>
+                </p>
+                <button id="copyButton">Copy Code</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center" style="background-color: var(--bg-primary);">
+        <p style="color: var(--text-secondary)">
+            © 2024 Vikramjeet Singh. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const moonIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('theme-light')) {
+                body.classList.remove('theme-light');
+                body.classList.add('theme-dark');
+                moonIcon.classList.remove('fa-moon');
+                moonIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('theme-dark');
+                body.classList.add('theme-light');
+                moonIcon.classList.remove('fa-sun');
+                moonIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Wheel Configuration
+        const prizes = [
+            { text: '10% OFF', color: 'var(--accent-1)', code: 'SPIN10' },
+            { text: '20% OFF', color: 'var(--accent-2)', code: 'SPIN20' },
+            { text: '30% OFF', color: 'var(--accent-3)', code: 'SPIN30' },
+            { text: '40% OFF', color: 'var(--accent-4)', code: 'SPIN40' },
+            { text: '50% OFF', color: 'var(--accent-1)', code: 'SPIN50' },
+            { text: 'FREE SHIP', color: 'var(--accent-2)', code: 'SHIPFREE' },
+            { text: '15% OFF', color: 'var(--accent-3)', code: 'SPIN15' },
+            { text: '25% OFF', color: 'var(--accent-4)', code: 'SPIN25' }
+        ];
+
+        // Create Wheel Sections
+        const wheel = document.getElementById('wheel');
+        prizes.forEach((prize, index) => {
+            const section = document.createElement('div');
+            section.className = 'wheel-section';
+            section.style.backgroundColor = prize.color;
+            section.style.transform = `rotate(${(360 / prizes.length) * index}deg)`;
+            
+            const text = document.createElement('div');
+            text.textContent = prize.text;
+            text.style.position = 'absolute';
+            text.style.left = '50%';
+            text.style.top = '25%';
+            text.style.transform = 'rotate(90deg)';
+            text.style.color = 'white';
+            text.style.fontWeight = 'bold';
+            
+            section.appendChild(text);
+            wheel.appendChild(section);
+        });
+
+        // Spin Functionality
+        const spinButton = document.getElementById('spinButton');
+        const emailInput = document.getElementById('emailInput');
+        const resultDisplay = document.getElementById('resultDisplay');
+        const discountCode = document.getElementById('discountCode');
+        const copyButton = document.getElementById('copyButton');
+
+        spinButton.addEventListener('click', () => {
+            if (!emailInput.value) {
+                alert('Please enter your email first!');
+                return;
+            }
+
+            spinButton.disabled = true;
+            const randomPrize = Math.floor(Math.random() * prizes.length);
+            const rotation = 1440 + (360 / prizes.length) * randomPrize;
+            
+            wheel.style.transform = `rotate(${rotation}deg)`;
+
+            setTimeout(() => {
+                resultDisplay.classList.remove('hidden');
+                discountCode.textContent = prizes[randomPrize].code;
+                spinButton.disabled = false;
+            }, 4000);
+        });
+
+        // Copy Code Functionality
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(discountCode.textContent);
+            copyButton.textContent = 'Copied!';
+            setTimeout(() => {
+                copyButton.textContent = 'Copy Code';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
