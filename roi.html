@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Landing Page - Vikramjeet Singh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Theme Styles */
+        body.light {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        body.dark {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar:hover {
+            transform: translateY(5px);
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            margin: 10px 20px;
+            font-size: 16px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: #ff6b6b;
+            transform: scale(1.1);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #ff6b6b;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        #theme-toggle {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            background: #ff6b6b;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        #theme-toggle:hover {
+            background: #ff8787;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            animation: fadeIn 2s ease;
+            padding: 0 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ROI Calculator Section */
+        .roi-calculator {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .roi-form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .roi-form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 1.1rem;
+        }
+
+        .roi-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .roi-form input:focus {
+            border-color: #ff6b6b;
+            outline: none;
+        }
+
+        .roi-form button {
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .roi-form button:hover {
+            background: #ff8787;
+        }
+
+        #roi-result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            width: 100%;
+        }
+
+        /* 3D Canvas */
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .nav-item {
+                margin: 10px 0;
+                font-size: 14px;
+            }
+
+            #theme-toggle {
+                margin-top: 10px;
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .roi-calculator {
+                padding: 20px 10px;
+            }
+
+            .roi-form {
+                padding: 15px;
+            }
+
+            .roi-form input, .roi-form button {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .nav-item {
+                font-size: 12px;
+            }
+
+            #theme-toggle {
+                font-size: 12px;
+            }
+
+            .roi-form label {
+                font-size: 1rem;
+            }
+
+            #roi-result {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="light">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div>
+            <a href="#" class="nav-item">Home</a>
+            <a href="#roi" class="nav-item">ROI Calculator</a>
+            <a href="#" class="nav-item">Contact</a>
+        </div>
+        <button id="theme-toggle">Toggle Theme</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Boost Your Business with Us</h1>
+        <canvas id="three-canvas"></canvas>
+    </section>
+
+    <!-- ROI Calculator Section -->
+    <section id="roi" class="roi-calculator">
+        <h2>ROI Calculator</h2>
+        <div class="roi-form">
+            <label for="revenue">Current Annual Revenue ($):</label>
+            <input type="number" id="revenue" placeholder="e.g., 100000" required>
+            
+            <label for="expenses">Current Annual Expenses ($):</label>
+            <input type="number" id="expenses" placeholder="e.g., 70000" required>
+            
+            <label for="investment">Investment Amount ($):</label>
+            <input type="number" id="investment" placeholder="e.g., 10000" required>
+            
+            <button onclick="calculateROI()">Calculate ROI</button>
+            <div id="roi-result"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Vikramjeet Singh. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            document.body.classList.toggle('dark');
+        });
+
+        // Three.js 3D Background (Icosahedron)
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const geometry = new THREE.IcosahedronGeometry(15, 0); // Radius 15, detail 0
+        const material = new THREE.MeshBasicMaterial({ color: 0xff6b6b, wireframe: true });
+        const icosahedron = new THREE.Mesh(geometry, material);
+        scene.add(icosahedron);
+
+        camera.position.z = 30;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            icosahedron.rotation.x += 0.01;
+            icosahedron.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize Handler
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+
+        // ROI Calculator Logic
+        function calculateROI() {
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+            const investment = parseFloat(document.getElementById('investment').value) || 0;
+
+            if (revenue <= 0 || expenses <= 0 || investment <= 0) {
+                document.getElementById('roi-result').innerHTML = "Please enter valid positive numbers.";
+                return;
+            }
+
+            const currentProfit = revenue - expenses;
+            const projectedProfitIncrease = investment * 0.2; // Assuming 20% return on investment
+            const newProfit = currentProfit + projectedProfitIncrease;
+            const roi = ((newProfit - currentProfit) / investment) * 100;
+
+            document.getElementById('roi-result').innerHTML = `
+                Current Profit: $${currentProfit.toFixed(2)}<br>
+                Projected Profit Increase: $${projectedProfitIncrease.toFixed(2)}<br>
+                ROI: ${roi.toFixed(2)}%
+            `;
+        }
+    </script>
+</body>
+</html>
