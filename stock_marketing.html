@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockPro - Your Gateway to Successful Trading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #0d6efd;
+        }
+        
+        .btn {
+            background-color: #0d6efd;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #0b5ed7;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0099ff 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: #fff;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 36px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: #0d6efd;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #0d6efd 0%, #0099ff 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Newsletter Section */
+        .newsletter {
+            padding: 80px 0;
+            background-color: #fff;
+            text-align: center;
+        }
+        
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .newsletter-form input {
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .form-message {
+            margin-top: 10px;
+            color: #0d6efd;
+            display: none;
+        }
+        
+        /* Special Offer Section */
+        .special-offer {
+            background-color: #f8f9fa;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .countdown-item {
+            margin: 0 10px;
+            background-color: #0d6efd;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            min-width: 80px;
+        }
+        
+        .countdown-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .countdown-label {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .footer-links li {
+            margin: 0 15px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+        }
+        
+        /* Stock Ticker Animation */
+        .stock-ticker {
+            overflow: hidden;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            position: relative;
+        }
+        
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+        
+        .ticker-item {
+            display: inline-block;
+            padding: 0 20px;
+        }
+        
+        .up {
+            color: #4caf50;
+        }
+        
+        .down {
+            color: #f44336;
+        }
+        
+        @keyframes ticker {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .features-grid, .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+            }
+            
+            .countdown-item {
+                margin: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">StockPro</div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#special-offer">Special Offer</a></li>
+                    <li><a href="#newsletter">Newsletter</a></li>
+                </ul>
+                <button class="btn" id="signup-btn">Sign Up</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="stock-ticker">
+        <div class="ticker-wrap">
+            <div class="ticker" id="stock-ticker">
+                <!-- Stock ticker items will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Master the Market with StockPro</h1>
+            <p>Get real-time insights, expert analysis, and powerful tools to make informed investment decisions.</p>
+            <button class="btn" id="trial-btn">Start Free Trial</button>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose StockPro</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-Time Data</h3>
+                    <p>Access up-to-the-second market data, charts, and analytics to stay ahead of market movements.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Advanced Analysis</h3>
+                    <p>Utilize powerful technical indicators and fundamental analysis tools to identify opportunities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Trading</h3>
+                    <p>Trade on the go with our intuitive mobile app, never miss an opportunity wherever you are.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Predictions</h3>
+                    <p>Leverage our AI-powered market prediction tools to forecast potential market movements.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Custom Alerts</h3>
+                    <p>Set personalized alerts for price movements, news, and market events that matter to you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🏫</div>
+                    <h3>Expert Guidance</h3>
+                    <p>Learn from industry experts with our educational resources and live webinars.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Users Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"StockPro has completely transformed my trading strategy. The real-time data and analysis tools have helped me make more informed decisions and significantly improved my returns."</p>
+                    <p class="testimonial-author">- Michael Johnson, Day Trader</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As a beginner investor, I was overwhelmed by the stock market. StockPro's educational resources and user-friendly interface made it easy for me to get started and build confidence."</p>
+                    <p class="testimonial-author">- Sarah Williams, New Investor</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The AI predictions feature is a game-changer. It's like having a personal financial advisor who works 24/7. I've been able to spot opportunities I would have otherwise missed."</p>
+                    <p class="testimonial-author">- David Chen, Portfolio Manager</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"I travel frequently for work, and the mobile app ensures I never miss a trading opportunity. The alerts and notifications keep me informed of important market movements."</p>
+                    <p class="testimonial-author">- Emma Rodriguez, Business Executive</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="special-offer" id="special-offer">
+        <div class="container">
+            <h2 class="section-title">Special Launch Offer</h2>
+            <p>Get 50% off our premium plan for the first 3 months. Limited time offer!</p>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+            <button class="btn" id="offer-btn">Claim Offer</button>
+        </div>
+    </section>
+
+    <section class="newsletter" id="newsletter">
+        <div class="container">
+            <h2 class="section-title">Stay Updated</h2>
+            <p>Subscribe to our newsletter for the latest market insights and trading tips.</p>
+            <form class="newsletter-form" id="newsletter-form">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <button type="submit" class="btn">Subscribe</button>
+                <p class="form-message" id="form-message">Thank you for subscribing!</p>
+            </form>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Trading?</h2>
+            <p>Join thousands of successful traders who have elevated their investment strategy with StockPro.</p>
+            <button class="btn" id="cta-btn">Get Started Today</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="logo">StockPro</div>
+            <ul class="footer-links">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+            <p class="copyright">© 2023 StockPro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Dynamic stock ticker
+        function updateStockTicker() {
+            const stocks = [
+                { symbol: 'AAPL', name: 'Apple' },
+                { symbol: 'MSFT', name: 'Microsoft' },
+                { symbol: 'GOOGL', name: 'Google' },
+                { symbol: 'AMZN', name: 'Amazon' },
+                { symbol: 'TSLA', name: 'Tesla' },
+                { symbol: 'META', name: 'Meta' },
+                { symbol: 'NFLX', name: 'Netflix' },
+                { symbol: 'JPM', name: 'JP Morgan' },
+                { symbol: 'V', name: 'Visa' },
+                { symbol: 'WMT', name: 'Walmart' },
+                { symbol: 'DIS', name: 'Disney' },
+                { symbol: 'NVDA', name: 'NVIDIA' },
+                { symbol: 'PYPL', name: 'PayPal' },
+                { symbol: 'INTC', name: 'Intel' },
+                { symbol: 'CSCO', name: 'Cisco' }
+            ];
+
+            const tickerElement = document.getElementById('stock-ticker');
+            tickerElement.innerHTML = '';
+
+            stocks.forEach(stock => {
+                // Generate random price change between -3% and +3%
+                const change = (Math.random() * 6 - 3).toFixed(2);
+                const isUp = change >= 0;
+                
+                const tickerItem = document.createElement('div');
+                tickerItem.className = 'ticker-item';
+                tickerItem.innerHTML = `${stock.symbol} <span class="${isUp ? 'up' : 'down'}">${isUp ? '+' : ''}${change}%</span>`;
+                
+                tickerElement.appendChild(tickerItem);
+            });
+        }
+
+        // Update stock ticker initially and then every 5 seconds
+        updateStockTicker();
+        setInterval(updateStockTicker, 5000);
+
+        // Newsletter form submission
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            
+            // Here you would typically send this data to your server
+            console.log(`Subscription: ${name} (${email})`);
+            
+            // Show success message
+            document.getElementById('form-message').style.display = 'block';
+            
+            // Reset form
+            this.reset();
+            
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                document.getElementById('form-message').style.display = 'none';
+            }, 3000);
+        });
+
+        // Countdown timer for special offer
+        function updateCountdown() {
+            // Set the date we're counting down to (7 days from now)
+            const countdownDate = new Date();
+            countdownDate.setDate(countdownDate.getDate() + 7);
+            
+            // Update the countdown every 1 second
+            const x = setInterval(function() {
+                // Get today's date and time
+                const now = new Date().getTime();
+                
+                // Find the distance between now and the countdown date
+                const distance = countdownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the result
+                document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+                
+                // If the countdown is finished, display expired message
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+
+        updateCountdown();
+
+        // Button click events
+        document.getElementById('signup-btn').addEventListener('click', function() {
+            alert('Sign up functionality would be implemented here!');
+        });
+
+        document.getElementById('trial-btn').addEventListener('click', function() {
+            alert('Free trial registration would be implemented here!');
+        });
+
+        document.getElementById('offer-btn').addEventListener('click', function() {
+            alert('Special offer claim would be processed here!');
+        });
+
+        document.getElementById('cta-btn').addEventListener('click', function() {
+            alert('Registration process would start here!');
+        });
+
+        // Feature card animation on scroll
+        window.addEventListener('scroll', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach(card => {
+                const cardPosition = card.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (cardPosition < screenPosition) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize feature cards with opacity 0 for scroll animation
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+    </script>
+</body>
+</html>
