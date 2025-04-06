@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroBeats - Vintage Music Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#FF6B6B',
+                            DEFAULT: '#FF5252',
+                            dark: '#FF3838',
+                        },
+                        secondary: {
+                            light: '#4ECDC4',
+                            DEFAULT: '#1A535C',
+                            dark: '#0B3142',
+                        },
+                        retro: {
+                            yellow: '#FFD166',
+                            purple: '#9381FF',
+                            blue: '#4CC9F0',
+                            pink: '#F72585',
+                            orange: '#FB8500',
+                        },
+                        dark: {
+                            100: '#1E1E1E',
+                            200: '#2D2D2D',
+                            300: '#3D3D3D',
+                            400: '#4D4D4D',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 8s linear infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'wave': 'wave 1.5s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        wave: {
+                            '0%': { height: '5px' },
+                            '50%': { height: '20px' },
+                            '100%': { height: '5px' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+        /* Custom styles that can't be easily done with Tailwind */
+        .vinyl-record {
+            background: radial-gradient(circle at center, #000 0%, #000 35%, #333 35%, #333 40%, #000 40%, #000 42%, #333 42%, #333 45%, #000 45%, #000 47%, #333 47%, #333 50%, #000 50%, #000 52%, #333 52%, #333 55%, #000 55%, #000 80%, #333 80%, #333 100%);
+        }
+        
+        .cassette-holes::before, .cassette-holes::after {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 30%;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .cassette-holes::before {
+            left: 15%;
+        }
+        
+        .cassette-holes::after {
+            right: 15%;
+        }
+        
+        .audio-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 30px;
+        }
+        
+        .audio-wave .bar {
+            width: 3px;
+            background-color: currentColor;
+            border-radius: 3px;
+        }
+        
+        .audio-wave .bar:nth-child(1) { animation-delay: 0.1s; }
+        .audio-wave .bar:nth-child(2) { animation-delay: 0.2s; }
+        .audio-wave .bar:nth-child(3) { animation-delay: 0.3s; }
+        .audio-wave .bar:nth-child(4) { animation-delay: 0.4s; }
+        .audio-wave .bar:nth-child(5) { animation-delay: 0.5s; }
+        
+        /* Gradient text */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #FF5252, #FFD166, #4ECDC4);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #FF5252;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF3838;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #2D2D2D;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-gray-50 text-gray-900 dark:bg-dark-100 dark:text-gray-100 transition-colors duration-300">
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/90 dark:bg-dark-200/90 backdrop-blur-md shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <div class="relative w-10 h-10">
+                        <div class="vinyl-record absolute inset-0 rounded-full animate-spin-slow"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-3 h-3 bg-primary rounded-full"></div>
+                        </div>
+                    </div>
+                    <span class="text-xl font-bold">Retro<span class="text-primary">Beats</span></span>
+                </div>
+                
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="font-medium hover:text-primary transition-colors">Features</a>
+                    <a href="#discover" class="font-medium hover:text-primary transition-colors">Discover</a>
+                    <a href="#pricing" class="font-medium hover:text-primary transition-colors">Pricing</a>
+                    <a href="#testimonials" class="font-medium hover:text-primary transition-colors">Testimonials</a>
+                </nav>
+                
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-dark-300 hover:bg-gray-200 dark:hover:bg-dark-400 transition-colors">
+                        <!-- Sun icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <!-- Moon icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                    <a href="#download" class="hidden sm:block px-5 py-2 bg-primary hover:bg-primary-dark text-white rounded-full font-medium transition-all transform hover:scale-105">
+                        Download App
+                    </a>
+                    <button class="md:hidden" id="mobile-menu-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2 transition-all duration-300">
+                <nav class="flex flex-col gap-4">
+                    <a href="#features" class="font-medium hover:text-primary transition-colors">Features</a>
+                    <a href="#discover" class="font-medium hover:text-primary transition-colors">Discover</a>
+                    <a href="#pricing" class="font-medium hover:text-primary transition-colors">Pricing</a>
+                    <a href="#testimonials" class="font-medium hover:text-primary transition-colors">Testimonials</a>
+                    <a href="#download" class="px-5 py-2 bg-primary hover:bg-primary-dark text-white rounded-full font-medium transition-all transform hover:scale-105 w-full text-center mt-2">
+                        Download App
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 space-y-6" data-aos="fade-right">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                        Experience Music with <span class="text-gradient">Retro Vibes</span>
+                    </h1>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 max-w-lg">
+                        Rediscover the charm of vintage music players with modern technology. Stream your favorite tunes with a nostalgic twist.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#download" class="px-8 py-3 bg-primary hover:bg-primary-dark text-white rounded-full font-medium transition-all transform hover:scale-105 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Download Now
+                        </a>
+                        <a href="#demo" class="px-8 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white dark:text-white rounded-full font-medium transition-all">
+                            Watch Demo
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4">
+                        <div class="flex -space-x-2">
+                            <img class="w-10 h-10 rounded-full border-2 border-white dark:border-dark-100" src="https://randomuser.me/api/portraits/women/32.jpg" alt="User">
+                            <img class="w-10 h-10 rounded-full border-2 border-white dark:border-dark-100" src="https://randomuser.me/api/portraits/men/54.jpg" alt="User">
+                            <img class="w-10 h-10 rounded-full border-2 border-white dark:border-dark-100" src="https://randomuser.me/api/portraits/women/67.jpg" alt="User">
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="font-bold">4.9</span>
+                            </div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">From 3,000+ reviews</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 relative" data-aos="fade-left">
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 dark:bg-primary/5 rounded-full filter blur-3xl"></div>
+                    <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-retro-blue/10 dark:bg-retro-blue/5 rounded-full filter blur-3xl"></div>
+                    
+                    <div class="relative">
+                        <!-- Main player mockup -->
+                        <div class="bg-gray-100 dark:bg-dark-300 rounded-3xl p-8 shadow-xl transform rotate-3 transition-transform hover:rotate-0 duration-500">
+                            <div class="bg-gray-200 dark:bg-dark-400 rounded-2xl p-6 relative cassette-holes">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="font-bold">Now Playing</h3>
+                                    <div class="audio-wave">
+                                        <div class="bar h-3 animate-wave"></div>
+                                        <div class="bar h-5 animate-wave"></div>
+                                        <div class="bar h-7 animate-wave"></div>
+                                        <div class="bar h-4 animate-wave"></div>
+                                        <div class="bar h-6 animate-wave"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center gap-4 mb-6">
+                                    <div class="w-16 h-16 vinyl-record rounded-lg flex-shrink-0 animate-spin-slow"></div>
+                                    <div>
+                                        <h4 class="font-bold">Retro Dreams</h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Vintage Vibes</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="w-full bg-gray-300 dark:bg-dark-200 h-1 rounded-full mb-4">
+                                    <div class="bg-primary h-1 rounded-full w-2/3"></div>
+                                </div>
+                                
+                                <div class="flex justify-between text-sm mb-6">
+                                    <span>2:14</span>
+                                    <span>3:45</span>
+                                </div>
+                                
+                                <div class="flex justify-between items-center">
+                                    <button class="p-2 hover:text-primary transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
+                                        </svg>
+                                    </button>
+                                    <button class="p-3 bg-primary rounded-full text-white hover:bg-primary-dark transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </button>
+                                    <button class="p-2 hover:text-primary transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating vinyl record -->
+                        <div class="absolute -top-10 -right-10 w-24 h-24 vinyl-record rounded-full shadow-lg animate-float"></div>
+                        
+                        <!-- Floating cassette -->
+                        <div class="absolute -bottom-10 -left-10 w-32 h-20 bg-retro-yellow dark:bg-retro-orange/80 rounded-lg shadow-lg transform -rotate-12 animate-float delay-100 cassette-holes">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-12 h-12 border-2 border-gray-800 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gray-100 dark:bg-dark-200">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Retro Features, Modern Experience</h2>
+                <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Enjoy the best of both worlds with our unique blend of vintage aesthetics and cutting-edge technology.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-retro-purple/20 dark:bg-retro-purple/10 rounded-full flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-retro-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Vinyl Simulation</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Experience the warm, rich sound of vinyl records with our advanced audio processing technology.
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-retro-blue/20 dark:bg-retro-blue/10 rounded-full flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-retro-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Cassette UI</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Navigate through your music with our nostalgic cassette-inspired interface, complete with rewind and fast-forward.
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 bg-retro-pink/20 dark:bg-retro-pink/10 rounded-full flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-retro-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Offline Mixtapes</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Create and download custom mixtapes for offline listening, just like the good old days but without the tape hiss.
+                    </p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-14 h-14 bg-retro-yellow/20 dark:bg-retro-yellow/10 rounded-full flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-retro-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Time Machine</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Travel through decades with curated playlists from the 50s through the 90s, each with authentic period sounds.
+                    </p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-14 h-14 bg-retro-orange/20 dark:bg-retro-orange/10 rounded-full flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-retro-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Walkman Mode</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Take your music on the go with our special Walkman mode, optimized for outdoor listening with retro filters.
+                    </p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="600">
+                    <div class="w-14 h-14 bg-primary/20 dark:bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Social Sharing</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Share your retro music experiences with friends through customizable digital mixtape cards and playlists.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</div>
+</section>
+
+<!-- Discover Section -->
+<section id="discover" class="py-20">
+<div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Discover Retro Collections</h2>
+        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Explore our curated collections of vintage music across different decades and genres.
+        </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Collection 1: 70s Disco -->
+        <div class="bg-white dark:bg-dark-300 rounded-xl overflow-hidden shadow-lg group" data-aos="fade-up" data-aos-delay="100">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+                     alt="70s Disco" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                    <h3 class="text-white font-bold text-xl">70s Disco Fever</h3>
+                    <p class="text-gray-200 text-sm">42 tracks</p>
+                </div>
+                <button class="absolute top-4 right-4 w-10 h-10 bg-white dark:bg-dark-200 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 vinyl-record rounded-full"></div>
+                        <span class="font-medium">Disco Collection</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span class="text-sm">4.8</span>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Groove to the infectious beats of the disco era with hits from ABBA, Bee Gees, and more.
+                </p>
+                <button class="w-full py-2 bg-gray-100 dark:bg-dark-400 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-dark-300 transition-colors">
+                    Add to Library
+                </button>
+            </div>
+        </div>
+        
+        <!-- Collection 2: 80s Synthwave -->
+        <div class="bg-white dark:bg-dark-300 rounded-xl overflow-hidden shadow-lg group" data-aos="fade-up" data-aos-delay="200">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80" 
+                     alt="80s Synthwave" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                    <h3 class="text-white font-bold text-xl">80s Synthwave</h3>
+                    <p class="text-gray-200 text-sm">38 tracks</p>
+                </div>
+                <button class="absolute top-4 right-4 w-10 h-10 bg-white dark:bg-dark-200 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 vinyl-record rounded-full"></div>
+                        <span class="font-medium">Synth Collection</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span class="text-sm">4.9</span>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Experience the neon-soaked sounds of the 80s with iconic tracks from Depeche Mode, New Order, and more.
+                </p>
+                <button class="w-full py-2 bg-gray-100 dark:bg-dark-400 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-dark-300 transition-colors">
+                    Add to Library
+                </button>
+            </div>
+        </div>
+        
+        <!-- Collection 3: 90s Hip Hop -->
+        <div class="bg-white dark:bg-dark-300 rounded-xl overflow-hidden shadow-lg group" data-aos="fade-up" data-aos-delay="300">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1520170350707-b2da59970118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1742&q=80" 
+                     alt="90s Hip Hop" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                    <h3 class="text-white font-bold text-xl">90s Hip Hop</h3>
+                    <p class="text-gray-200 text-sm">45 tracks</p>
+                </div>
+                <button class="absolute top-4 right-4 w-10 h-10 bg-white dark:bg-dark-200 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 vinyl-record rounded-full"></div>
+                        <span class="font-medium">Hip Hop Collection</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span class="text-sm">4.7</span>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Relive the golden age of hip hop with classic tracks from Tupac, Notorious B.I.G., and Wu-Tang Clan.
+                </p>
+                <button class="w-full py-2 bg-gray-100 dark:bg-dark-400 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-dark-300 transition-colors">
+                    Add to Library
+                </button>
+            </div>
+        </div>
+        
+        <!-- Collection 4: 60s Rock -->
+        <div class="bg-white dark:bg-dark-300 rounded-xl overflow-hidden shadow-lg group" data-aos="fade-up" data-aos-delay="400">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" 
+                     alt="60s Rock" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                    <h3 class="text-white font-bold text-xl">60s Rock Classics</h3>
+                    <p class="text-gray-200 text-sm">36 tracks</p>
+                </div>
+                <button class="absolute top-4 right-4 w-10 h-10 bg-white dark:bg-dark-200 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 vinyl-record rounded-full"></div>
+                        <span class="font-medium">Rock Collection</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span class="text-sm">4.9</span>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    Journey back to the revolutionary sounds of the 60s with The Beatles, The Rolling Stones, and Jimi Hendrix.
+                </p>
+                <button class="w-full py-2 bg-gray-100 dark:bg-dark-400 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-dark-300 transition-colors">
+                    Add to Library
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-12">
+        <a href="#" class="inline-flex items-center gap-2 text-primary hover:text-primary-dark font-medium transition-colors">
+            View All Collections
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </a>
+    </div>
+</div>
+</section>
+
+<!-- App Demo Section -->
+<section id="demo" class="py-20 bg-gray-100 dark:bg-dark-200 overflow-hidden">
+<div class="container mx-auto px-4">
+    <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="lg:w-1/2" data-aos="fade-right">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Experience the App in Action</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-8">
+                See how RetroBeats brings the nostalgic music experience to your modern devices. Our intuitive interface combines vintage aesthetics with cutting-edge functionality.
+            </p>
+            
+            <div class="space-y-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 bg-retro-purple/20 dark:bg-retro-purple/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-retro-purple" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Intuitive Retro Controls</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Navigate through your music with familiar controls inspired by classic music players, reimagined for touchscreens.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 bg-retro-blue/20 dark:bg-retro-blue/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-retro-blue" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Authentic Sound Filters</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Choose from vinyl crackle, cassette hiss, or radio static filters to add authentic vintage character to your music.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 bg-retro-yellow/20 dark:bg-retro-yellow/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-retro-yellow" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Customizable Themes</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Switch between different era-inspired themes, from 50s diners to 80s neon, each with unique visuals and animations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-10">
+                <a href="#download" class="px-8 py-3 bg-primary hover:bg-primary-dark text-white rounded-full font-medium transition-all transform hover:scale-105 inline-flex items-center gap-2">
+                    Try It Now
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <div class="lg:w-1/2 relative" data-aos="fade-left">
+            <!-- Video placeholder with play button -->
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80" 
+                     alt="App Demo" class="w-full h-auto">
+                <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <button class="w-20 h-20 bg-white/90 dark:bg-dark-100/90 rounded-full flex items-center justify-center transform transition-transform hover:scale-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Floating elements -->
+            <div class="absolute -top-10 -right-10 w-24 h-24 vinyl-record rounded-full shadow-lg animate-float"></div>
+            <div class="absolute -bottom-5 -left-5 w-16 h-16 bg-retro-purple/80 dark:bg-retro-purple/60 rounded-full filter blur-xl animate-pulse-slow"></div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="py-20">
+<div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Choose Your Plan</h2>
+        <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Select the perfect subscription that fits your retro music needs, from casual listeners to dedicated collectors.
+        </p>
+    </div>
+    
+    <div class="flex flex-col lg:flex-row gap-8 max-w-5xl mx-auto">
+        <!-- Free Plan -->
+        <div class="flex-1 bg-white dark:bg-dark-300 rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="100">
+            <div class="p-8">
+                <h3 class="text-2xl font-bold mb-4">Free</h3>
+                <div class="mb-6">
+                    <span class="text-4xl font-bold">$0</span>
+                    <span class="text-gray-500 dark:text-gray-400">/month</span>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-8">
+                    Perfect for casual listeners who want to experience retro vibes.
+                </p>
+                
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Basic retro filters</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>                        <span>Access to ad-supported streaming</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Create up to 3 mixtapes</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-gray-500 dark:text-gray-400">Advanced sound filters</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-gray-500 dark:text-gray-400">Offline listening</span>
+                    </li>
+                </ul>
+                
+                <a href="#download" class="block w-full py-3 bg-gray-100 dark:bg-dark-400 text-center rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-dark-500 transition-colors">
+                    Get Started
+                </a>
+            </div>
+        </div>
+        
+        <!-- Premium Plan -->
+        <div class="flex-1 bg-white dark:bg-dark-300 rounded-2xl overflow-hidden shadow-xl relative transform scale-105 z-10" data-aos="fade-up">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-retro-purple via-retro-pink to-retro-orange"></div>
+            <div class="p-8">
+                <div class="absolute -right-3 -top-3 bg-retro-pink text-white text-xs font-bold px-3 py-1 rounded-full transform rotate-12">
+                    POPULAR
+                </div>
+                <h3 class="text-2xl font-bold mb-4">Premium</h3>
+                <div class="mb-6">
+                    <span class="text-4xl font-bold">$9.99</span>
+                    <span class="text-gray-500 dark:text-gray-400">/month</span>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-8">
+                    For music enthusiasts who want the full retro experience.
+                </p>
+                
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Ad-free listening</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>All retro filters & effects</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Unlimited mixtapes</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Offline listening</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Exclusive vintage collections</span>
+                    </li>
+                </ul>
+                
+                <a href="#download" class="block w-full py-3 bg-primary hover:bg-primary-dark text-white text-center rounded-lg font-medium transition-colors">
+                    Get Premium
+                </a>
+            </div>
+        </div>
+        
+        <!-- Collector Plan -->
+        <div class="flex-1 bg-white dark:bg-dark-300 rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="200">
+            <div class="p-8">
+                <h3 class="text-2xl font-bold mb-4">Collector</h3>
+                <div class="mb-6">
+                    <span class="text-4xl font-bold">$14.99</span>
+                    <span class="text-gray-500 dark:text-gray-400">/month</span>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-8">
+                    For true audiophiles and vintage music collectors.
+                </p>
+                
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Everything in Premium</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Hi-Fi audio quality</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Rare tracks & recordings</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Advanced audio customization</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Early access to new features</span>
+                    </li>
+                </ul>
+                
+                <a href="#download" class="block w-full py-3 bg-gray-100 dark:bg-dark-400 text-center rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-dark-500 transition-colors">
+                    Get Collector
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-12">
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+            All plans come with a 7-day free trial. No credit card required.
+        </p>
+        <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">
+            View full comparison
+        </a>
+    </div>
+</div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-20 bg-gray-100 dark:bg-dark-200">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Join thousands of music lovers who have rediscovered the joy of retro music with our app.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" class="w-14 h-14 rounded-full">
+                    <div>
+                        <h3 class="font-bold text-lg">Sarah Johnson</h3>
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    "I've been looking for a way to introduce my kids to the music I grew up with. RetroBeats does it perfectly with its fun interface and authentic sound. The vinyl crackle filter is spot on!"
+                </p>
+                <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Premium user for 6 months</span>
+                </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="User" class="w-14 h-14 rounded-full">
+                    <div>
+                        <h3 class="font-bold text-lg">Michael Chen</h3>
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    "As a DJ, I love using the app to find inspiration from different eras. The mixtape feature is brilliant for creating themed sets, and the sound quality is exceptional. Worth every penny!"
+                </p>
+                <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Collector user for 1 year</span>
+                </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="User" class="w-14 h-14                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Experience the neon-soaked sounds of the 80s with iconic tracks from Depeche Mode, New Order, and more.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Create up to 3 mixtapes</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-gray-500 dark:text-gray-400">Advanced sound filters</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-gray-500 dark:text-gray-400">Offline listening</span>
+                    </li>
+                </ul>
+                
+                <a href="#download" class="block w-full py-3 bg-gray-100 dark:bg-dark-400 text-center rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-dark-500 transition-colors">
+                    Get Started
+                </a>
+            </div>
+        </div>
+        
+        <!-- Premium Plan -->
+        <div class="flex-1 bg-white dark:bg-dark-300 rounded-2xl overflow-hidden shadow-xl relative transform scale-105 z-10" data-aos="fade-up">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-retro-purple via-retro-pink to-retro-orange"></div>
+            <div class="p-8">
+                <div class="absolute -right-3 -top-3 bg-retro-pink text-white text-xs font-bold px-3 py-1 rounded-full transform rotate-12">
+                    POPULAR
+                </div>
+                <h3 class="text-2xl font-bold mb-4">Premium</h3>
+                <div class="mb-6">
+                    <span class="text-4xl font-bold">$9.99</span>
+                    <span class="text-gray-500 dark:text-gray-400">/month</span>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-8">
+                    For music enthusiasts who want the full retro experience.
+                </p>
+                
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Ad-free listening</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>All retro filters & effects</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Unlimited mixtapes</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Offline listening</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Exclusive vintage collections</span>
+                    </li>
+                </ul>
+                
+                <a href="#download" class="block w-full py-3 bg-primary hover:bg-primary-dark text-white text-center rounded-lg font-medium transition-colors">
+                    Get Premium
+                </a>
+            </div>
+        </div>
+        
+        <!-- Collector Plan -->
+        <div class="flex-1 bg-white dark:bg-dark-300 rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-105 duration-300" data-aos="fade-up" data-aos-delay="200">
+            <div class="p-8">
+                <h3 class="text-2xl font-bold mb-4">Collector</h3>
+                <div class="mb-6">
+                    <span class="text-4xl font-bold">$14.99</span>
+                    <span class="text-gray-500 dark:text-gray-400">/month</span>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-8">
+                    For true audiophiles and vintage music collectors.
+                </p>
+                
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Everything in Premium</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Hi-Fi audio quality</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Rare tracks & recordings</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Advanced audio customization</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Early access to new features</span>
+                    </li>
+                </ul>
+                
+                <a href="#download" class="block w-full py-3 bg-gray-100 dark:bg-dark-400 text-center rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-dark-500 transition-colors">
+                    Get Collector
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-12">
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+            All plans come with a 7-day free trial. No credit card required.
+        </p>
+        <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">
+            View full comparison
+        </a>
+    </div>
+</div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-20 bg-gray-100 dark:bg-dark-200">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Join thousands of music lovers who have rediscovered the joy of retro music with our app.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" class="w-14 h-14 rounded-full">
+                    <div>
+                        <h3 class="font-bold text-lg">Sarah Johnson</h3>
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    "I've been looking for a way to introduce my kids to the music I grew up with. RetroBeats does it perfectly with its fun interface and authentic sound. The vinyl crackle filter is spot on!"
+                </p>
+                <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Premium user for 6 months</span>
+                </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="bg-white dark:bg-dark-300 p-8 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="User" class="w-14 h-14 rounded-full">
+                    <div>
+                        <h3 class="font-bold text-lg">Michael Chen</h3>
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    "As a DJ, I love using the app to find inspiration from different eras. The mixtape feature is brilliant for creating themed sets, and the sound quality is exceptional. Worth every penny!"
+                </p>
+                <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m
