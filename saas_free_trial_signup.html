@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudSuite - SaaS Free Trial Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #818CF8;
+            --primary-dark: #3730A3;
+            --secondary: #10B981;
+            --secondary-light: #34D399;
+            --secondary-dark: #059669;
+            --accent: #F59E0B;
+            --text: #1F2937;
+            --text-light: #6B7280;
+            --text-lighter: #9CA3AF;
+            --bg: #ffffff;
+            --bg-light: #F9FAFB;
+            --card-bg: #F3F4F6;
+            --border: #E5E7EB;
+            --toggle-bg: #E5E7EB;
+            --toggle-circle: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-lg: rgba(0, 0, 0, 0.05);
+            --gradient-start: rgba(79, 70, 229, 0.8);
+            --gradient-end: rgba(16, 185, 129, 0.8);
+            --font-primary: 'Inter', sans-serif;
+            --font-secondary: 'Poppins', sans-serif;
+        }
+
+        .dark-mode {
+            --primary: #818CF8;
+            --primary-light: #A5B4FC;
+            --primary-dark: #4F46E5;
+            --secondary: #34D399;
+            --secondary-light: #6EE7B7;
+            --secondary-dark: #10B981;
+            --accent: #FBBF24;
+            --text: #F9FAFB;
+            --text-light: #E5E7EB;
+            --text-lighter: #9CA3AF;
+            --bg: #111827;
+            --bg-light: #1F2937;
+            --card-bg: #1F2937;
+            --border: #374151;
+            --toggle-bg: #4B5563;
+            --toggle-circle: #111827;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-lg: rgba(0, 0, 0, 0.2);
+            --gradient-start: rgba(129, 140, 248, 0.8);
+            --gradient-end: rgba(52, 211, 153, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: var(--toggle-bg);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 10px var(--shadow);
+            padding: 5px;
+        }
+
+        .theme-toggle-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--toggle-circle);
+            box-shadow: 0 2px 5px var(--shadow);
+            transform: translateX(0);
+            transition: transform 0.3s;
+        }
+
+        .dark-mode .theme-toggle-circle {
+            transform: translateX(30px);
+        }
+
+        .theme-toggle-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        .theme-toggle-icon.sun {
+            left: 8px;
+        }
+
+        .theme-toggle-icon.moon {
+            right: 8px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 99;
+            transition: background-color 0.3s, padding 0.3s, box-shadow 0.3s;
+        }
+
+        nav.scrolled {
+            background-color: var(--bg);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Header */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0 50px;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            z-index: -1;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            z-index: 1;
+        }
+
+        .header-text {
+            flex: 1;
+            min-width: 300px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h1 span {
+            color: var(--accent);
+            position: relative;
+        }
+
+        .header-text p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 15px;
+            margin-bottom: 15px;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px var(--shadow);
+            background-color: var(--secondary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .header-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .header-image img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px var(--shadow-lg);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            z-index: 0;
+            opacity: 0.8;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .element-1 {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .element-2 {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .element-3 {
+            top: 60%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .floating-element img {
+            width: 60px;
+            height: auto;
+            filter: drop-shadow(0 5px 15px var(--shadow));
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            bottom: -10px;
+            left: 25%;
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+
+        .section-title p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-light);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary), var(--primary-light));
+            background-size: 200% 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: white;
+            animation: shimmer 3s infinite;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* How It Works */
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: -20%;
+            width: 40%;
+            height: 2px;
+            background-color: var(--primary-light);
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .step p {
+            color: var(--text-light);
+        }
+
+        /* Pricing */
+        .pricing {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 350px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid var(--border);
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            position: relative;
+        }
+
+        .pricing-card.popular::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow);
+        }
+
+        .pricing-card.popular:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .pricing-header {
+            margin-bottom: 20px;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+
+        .pricing-features {
+            margin-bottom: 30px;
+        }
+
+        .pricing-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-light);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li i {
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .testimonial {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '\201C';
+            font-family: Georgia, serif;
+            font-size: 5rem;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            color: var(--primary-light);
+            opacity: 0.3;
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .testimonial-author img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid var(--primary-light);
+        }
+
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        /* FAQ */
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            background-color: var(--card-bg);
+        }
+
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            color: var(--text-light);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px;
+            max-height: 1000px;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            border-radius: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        /* Signup Form */
+        .signup-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--bg-light);
+            color: var(--text);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .form-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .form-footer p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            bottom: -10px;
+            left: 0;
+            background-color: var(--primary);
+        }
+
+        .footer-column p, .footer-column a {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-light);
+            color: white;
+            border-radius: 50%;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+            background-color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .header-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .nav-links, .nav-buttons {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg);
+                padding: 20px;
+                flex-direction: column;
+                align-items: center;
+                box-shadow: 0 5px 10px var(--shadow);
+            }
+            
+            .nav-links.active, .nav-buttons.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .step:not(:last-child)::after {
+                display: none;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+            
+            .pricing-card.popular:hover {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                display: block;
+                width: 100%;
+                margin-right: 0;
+            }
+            
+            .form-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .theme-toggle {
+                top: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <div class="theme-toggle-icon sun"><i class="fas fa-sun"></i></div>
+        <div class="theme-toggle-circle"></div>
+        <div class="theme-toggle-icon moon"><i class="fas fa-moon"></i></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo"><i class="fas fa-cloud"></i>CloudSuite</a>
+            <div class="nav-links" id="navLinks">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            <div class="nav-buttons" id="navButtons">
+                <a href="#" class="btn btn-outline">Login</a>
+                <a href="#signup" class="btn btn-primary">Start Free Trial</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="header-bg"></div>
+        <!-- Floating Elements -->
+        <div class="floating-element element-1">
+            <img src="https://cdn-icons-png.flaticon.com/512/2920/2920349.png" alt="Cloud">
+        </div>
+        <div class="floating-element element-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/1935/1935159.png" alt="Analytics">
+        </div>
+        <div class="floating-element element-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/1378/1378644.png" alt="Security">
+        </div>
+
+        <div class="header-content">
+            <div class="header-text">
+                <h1>Boost Your Business with <span>CloudSuite</span></h1>
+                <p>All-in-one SaaS solution for project management, team collaboration, and business analytics. Try it free for 14 days, no credit card required.</p>
+                <a href="#signup" class="btn">Start Your Free Trial</a>
+                <a href="#demo" class="btn btn-outline">Watch Demo</a>
+            </div>
+            <div class="header-image">
+                <img src="https://cdn.pixabay.com/photo/2018/03/27/12/16/analytics-3265840_1280.png" alt="CloudSuite Dashboard">
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="section-title">
+            <h2>Powerful Features</h2>
+            <p>Everything you need to streamline your business operations</p>
+        </div>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <h3>Project Management</h3>
+                <p>Create, assign, and track tasks with ease. Set deadlines, priorities, and monitor progress in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Team Collaboration</h3>
+                <p>Communicate effectively with your team through chat, file sharing, and collaborative documents.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3>Advanced Analytics</h3>
+                <p>Gain valuable insights with customizable dashboards and detailed reports on all aspects of your business.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Access</h3>
+                <p>Access your workspace from anywhere with our fully-featured mobile apps for iOS and Android.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Enterprise Security</h3>
+                <p>Rest easy with bank-level encryption, two-factor authentication, and regular security audits.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3>Customization</h3>
+                <p>Tailor the platform to your needs with custom fields, workflows, and branded interfaces.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works">
+        <div class="section-title">
+            <h2>How It Works</h2>
+            <p>Get started with CloudSuite in three simple steps</p>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Sign Up</h3>
+                <p>Create your free account in less than a minute. No credit card required to start your 14-day trial.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Set Up Your Workspace</h3>
+                <p>Import your data or start fresh. Our guided setup will help you configure your workspace.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Invite Your Team</h3>
+                <p>Add team members and start collaborating immediately with real-time updates and notifications.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="section-title">
+            <h2>Simple, Transparent Pricing</h2>
+            <p>Choose the plan that works best for your business</p>
+        </div>
+        <div class="pricing">
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Starter</h3>
+                    <div class="pricing-price">$29<span>/month</span></div>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i> Up to 10 users</li>
+                        <li><i class="fas fa-check"></i> 5GB storage</li>
+                        <li><i class="fas fa-check"></i> Basic reporting</li>
+                        <li><i class="fas fa-check"></i> Email support</li>
+                        <li><i class="fas fa-times"></i> Advanced analytics</li>
+                        <li><i class="fas fa-times"></i> API access</li>
+                    </ul>
+                </div>
+                <a href="#signup" class="btn btn-primary">Start Free Trial</a>
+            </div>
+            <div class="pricing-card popular">
+                <div class="pricing-header">
+                    <h3>Professional</h3>
+                    <div class="pricing-price">$79<span>/month</span></div>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i> Up to 50 users</li>
+                        <li><i class="fas fa-check"></i> 50GB storage</li>
+                        <li><i class="fas fa-check"></i> Advanced reporting</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> Basic analytics</li>
+                        <li><i class="fas fa-times"></i> API access</li>
+                    </ul>
+                </div>
+                <a href="#signup" class="btn btn-primary">Start Free Trial</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Enterprise</h3>
+                    <div class="pricing-price">$199<span>/month</span></div>
+                </div>
+                <div class="pricing-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i> Unlimited users</li>
+                        <li><i class="fas fa-check"></i> 500GB storage</li>
+                        <li><i class="fas fa-check"></i> Custom reporting</li>
+                        <li><i class="fas fa-check"></i> 24/7 dedicated support</li>
+                        <li><i class="fas fa-check"></i> Advanced analytics</li>
+                        <li><i class="fas fa-check"></i> Full API access</li>
+                    </ul>
+                </div>
+                <a href="#signup" class="btn btn-primary">Start Free Trial</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="section-title">
+            <h2>What Our Customers Say</h2>
+            <p>Join thousands of satisfied businesses using CloudSuite</p>
+        </div>
+        <div class="testimonials">
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    "CloudSuite has completely transformed how we manage our projects. The intuitive interface and powerful features have increased our team's productivity by 35%. The mobile app is a game-changer for our remote team members."
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson">
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Project Manager, TechCorp</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    "As a startup founder, I needed an affordable solution that could scale with our growth. CloudSuite has been the perfect fit. The analytics tools have given us insights we never had before, and the customer support is exceptional."
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael Chen">
+                    <div class="author-info">
+                        <h4>Michael Chen</h4>
+                        <p>CEO, InnovateLab</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+            <p>Find answers to common questions about CloudSuite</p>
+        </div>
+        <div class="faq">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How long is the free trial?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Our free trial lasts for 14 days. You'll have full access to all features of your selected plan during this period. No credit card is required to start your trial.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I change plans later?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, you can upgrade or downgrade your plan at any time. If you upgrade, the new features will be available immediately. If you downgrade, the changes will take effect at the start of your next billing cycle.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is my data secure?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely. We use bank-level encryption to protect your data both in transit and at rest. We also offer two-factor authentication, regular security audits, and comply with GDPR, HIPAA, and other regulations.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I import data from other tools?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, CloudSuite supports importing data from most popular project management and collaboration tools. Our setup wizard will guide you through the process, or our support team can assist you with custom imports.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you offer discounts for nonprofits or educational institutions?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, we offer special pricing for nonprofits, educational institutions, and startups. Please contact our sales team for more information about our discount programs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup Section -->
+    <section id="signup">
+        <div class="section-title">
+            <h2>Start Your Free Trial Today</h2>
+            <p>No credit card required. Cancel anytime.</p>
+        </div>
+        <div class="signup-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Work Email</label>
+                <input type="email" id="email" placeholder="Enter your work email" required>
+            </div>
+            <div class="form-group">
+                <label for="company">Company Name</label>
+                <input type="text" id="company" placeholder="Enter your company name" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Create Password</label>
+                <input type="password" id="password" placeholder="Create a secure password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Create Your Free Account</button>
+            <div class="form-footer">
+                <p>By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section>
+        <div class="cta">
+            <h2>Ready to Transform Your Business?</h2>
+            <p>Join thousands of companies that trust CloudSuite to power their operations.</p>
+            <a href="#signup" class="btn">Start Free Trial</a>
+            <a href="#" class="btn btn-outline">Schedule Demo</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>CloudSuite</h3>
+                <p>The all-in-one SaaS platform for modern businesses.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Product</h3>
+                <a href="#">Features</a>
+                <a href="#">Pricing</a>
+                <a href="#">Security</a>
+                <a href="#">Integrations</a>
+                <a href="#">Updates</a>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <a href="#">Blog</a>
+                <a href="#">Documentation</a>
+                <a href="#">Guides</a>
+                <a href="#">Webinars</a>
+                <a href="#">API</a>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <a href="#">About Us</a>
+                <a href="#">Careers</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Partners</a>
+                <a href="#">Legal</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 CloudSuite. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save preference to localStorage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const navButtons = document.getElementById('navButtons');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            navButtons.classList.toggle('active');
+            
+            // Change icon based on menu state
+            const icon = mobileMenuBtn.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // FAQ accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                    navButtons.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+
+        // Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.feature-card, .step, .pricing-card, .testimonial, .faq-item');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = element.classList.contains('pricing-card') && element.classList.contains('popular') 
+                        ? 'translateY(0) scale(1.05)' 
+                        : 'translateY(0)';
+                }
+            });
+        };
+
+        // Set initial state for animated elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.feature-card, .step, .pricing-card, .testimonial, .faq-item');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+            
+            // Run animation check on load
+            animateOnScroll();
+            
+            // Add scroll event listener
+            window.addEventListener('scroll', animateOnScroll);
+        });
+    </script>
+</body>
+</html>
