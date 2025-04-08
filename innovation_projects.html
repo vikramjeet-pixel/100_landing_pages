@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovation Nexus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #2d3436;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 50px 0;
+            background: linear-gradient(135deg, #0984e3 0%, #6c5ce7 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: white;
+            clip-path: polygon(0 100%, 100% 0, 0 0);
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        /* Features Section */
+        .features {
+            margin: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #0984e3;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transform: translateY(70px) scale(0.95);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .card.active {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .card h3 {
+            color: #6c5ce7;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #636e72;
+        }
+
+        .card .tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #dfe6e9;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #fff;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: #0984e3;
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #6c5ce7 0%, #0984e3 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (min-width: 768px) {
+            .card { width: calc(33.33% - 25px); }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="hero-title">Innovation Nexus</h1>
+            <p class="hero-subtitle">Where Groundbreaking Ideas Transform the Future</p>
+        </header>
+
+        <section class="features">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Quantum Leap</h3>
+                    <p>Harnessing quantum computing to solve complex problems in record time.</p>
+                    <span class="tag">Quantum Tech</span>
+                </div>
+                <div class="card">
+                    <h3>EcoSphere</h3>
+                    <p>Next-gen sustainable living solutions using AI and renewable energy.</p>
+                    <span class="tag">Green Tech</span>
+                </div>
+                <div class="card">
+                    <h3>NeuralSync</h3>
+                    <p>Brain-computer interface revolutionizing human-machine interaction.</p>
+                    <span class="tag">Neuroscience</span>
+                </div>
+                <div class="card">
+                    <h3>SpaceForge</h3>
+                    <p>Advanced materials manufacturing in zero-gravity environments.</p>
+                    <span class="tag">Space Tech</span>
+                </div>
+                <div class="card">
+                    <h3>BioPrint</h3>
+                    <p>3D bioprinting technology for medical breakthroughs.</p>
+                    <span class="tag">Health Tech</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <h2 class="section-title">Our Impact</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <p>Active Projects</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">200</div>
+                    <p>Team Members</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15</div>
+                    <p>Awards Won</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1M+</div>
+                    <p>Lives Impacted</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <button class="cta-button">Join the Innovation Revolution</button>
+        </section>
+    </div>
+
+    <script>
+        // Scroll Animation for Cards
+        const cards = document.querySelectorAll('.card');
+        const stats = document.querySelectorAll('.stat-item');
+
+        function animateOnScroll(elements) {
+            const triggerBottom = window.innerHeight * 0.85;
+
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+
+                if (elementTop < triggerBottom) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            animateOnScroll(cards);
+            animateOnScroll(stats);
+        });
+
+        window.addEventListener('load', () => {
+            animateOnScroll(cards);
+            animateOnScroll(stats);
+        });
+
+        // CTA Button Interaction
+        const ctaButton = document.querySelector('.cta-button');
+        ctaButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                alert('Ready to innovate? Join us today!');
+            }, 500);
+        });
+
+        // Add active class to stats for animation
+        stats.forEach(stat => {
+            stat.style.transition = 'all 0.6s ease';
+            stat.style.transform = 'translateY(30px)';
+            stat.style.opacity = '0';
+        });
+
+        document.querySelectorAll('.stat-item.active').forEach(stat => {
+            stat.style.transform = 'translateY(0)';
+            stat.style.opacity = '1';
+        });
+    </script>
+</body>
+</html>
